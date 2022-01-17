@@ -1,3 +1,12 @@
+#Hosted for demo
+
+On this site you can se this netflix clone in action [Netflix-clone](https://netflix-clone-59691.web.app/).
+
+
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
