@@ -3,23 +3,30 @@ import axios from "./axios";
 import "./Row.css";
 import YouTube from "react-youtube";
 import movieTrailer from "movie-trailer";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const base_url = "https://image.tmdb.org/t/p/original/";
 
 function Row({ title, fetchUrl, isLargeRow }) {
   const [movies, setMovies] = useState([]);
   const [trailerUrl, setTrailerUrl] = useState("");
+  const notify = () => toast("Can not find any trailer");
 
   const handleClick = (movie) => {
     if (trailerUrl) {
       setTrailerUrl("");
+    } else {
+      movieTrailer(movie?.name || "")
+        .then((url) => {
+          const urlParams = new URLSearchParams(new URL(url).search);
+          setTrailerUrl(urlParams.get("v"));
+        })
+        .catch((e) => {
+          notify();
+          console.log(e);
+        });
     }
-    movieTrailer(movie?.name || "")
-      .then((url) => {
-        const urlParams = new URLSearchParams(new URL(url).search);
-        setTrailerUrl(urlParams.get("v"));
-      })
-      .catch((e) => console.log(e));
   };
 
   useEffect(() => {
@@ -41,6 +48,7 @@ function Row({ title, fetchUrl, isLargeRow }) {
 
   return (
     <div className="row">
+      <ToastContainer />
       <h2>{title}</h2>
       <div className="row__posters">
         {movies &&
